@@ -3,7 +3,7 @@
 // @name           Hide repost group for vk.com
 // @description    Hide records from the groups that were shared by your friends on vk.com and advertising
 // @namespace      http://vampirus.ru
-// @include        http://vk.com/feed*
+// @include        http://vk.com/*
 // @version        0.0.3
 // @licence        LGPL 3
 // ==/UserScript==
@@ -30,12 +30,15 @@
 		}
 	}
 	var height = document.documentElement.scrollHeight;
-	document.getElementById('left_ads').style.display='none';
-	hideLikes();
-	w.setInterval(function(){
-		if (height != document.documentElement.scrollHeight) {
-			height = document.documentElement.scrollHeight;
-			hideLikes();
-		}
-	},1000);
+	var adv = document.getElementById('left_ads');
+	if (adv) adv.style.display='none';
+	if (/http:\/\/vk.com\/feed*/.test(document.location.href)) {
+		hideLikes();
+		w.setInterval(function(){
+			if (height != document.documentElement.scrollHeight) {
+				height = document.documentElement.scrollHeight;
+				hideLikes();
+			}
+		},1000);
+	}
 })();
